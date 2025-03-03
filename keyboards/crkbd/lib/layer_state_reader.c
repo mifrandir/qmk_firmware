@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include "action_layer.h"
 
-// in the future, should use (1U<<_LAYER_NAME) instead, but needs to be moved to keymap,c
 #define L_BASE 0
-#define L_LOWER 2
-#define L_RAISE 4
-#define L_ADJUST 8
-#define L_ADJUST_TRI 14
+#define L_LEFT_FN (1 << 1)
+#define L_RIGHT_FN (1 << 2)
+#define L_LEFT_MOD (1 << 3)
+#define L_RIGHT_MOD (1 << 4)
 
 char layer_state_str[24];
 
@@ -14,23 +13,25 @@ const char *read_layer_state(void) {
   switch (layer_state)
   {
   case L_BASE:
-    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Default");
+    snprintf(layer_state_str, sizeof(layer_state_str), "layer: base");
     break;
-  case L_RAISE:
-    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Raise");
+  case L_LEFT_FN:
+    snprintf(layer_state_str, sizeof(layer_state_str), "layer: left");
     break;
-  case L_LOWER:
-    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Lower");
+  case L_RIGHT_FN:
+    snprintf(layer_state_str, sizeof(layer_state_str), "layer: right");
     break;
-  case L_ADJUST:
-  case L_ADJUST_TRI:
-    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Adjust");
+  case L_LEFT_MOD:
+    snprintf(layer_state_str, sizeof(layer_state_str), "layer: left-mod");
+    break;
+  case L_RIGHT_MOD:
+    snprintf(layer_state_str, sizeof(layer_state_str), "layer: right-mod");
     break;
   default:
 #if defined (LAYER_STATE_32BIT)
-    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Undef-%ld", layer_state);
+    snprintf(layer_state_str, sizeof(layer_state_str), "$ unknown: %ld", layer_state);
 #else
-    snprintf(layer_state_str, sizeof(layer_state_str), "Layer: Undef-%d", layer_state);
+    snprintf(layer_state_str, sizeof(layer_state_str), "$ unknown: %d", layer_state);
 #endif
   }
 
